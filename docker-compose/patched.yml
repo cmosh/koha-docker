@@ -10,6 +10,7 @@ services:
       dockerfile: Dockerfile
       args:
         KOHA_RELEASE: "$KOHA_RELEASE"
+        KOHA_FORK: "$KOHA_FORK"
     volumes:
       - ${KOHAPATH}/koha-patched/patches:/patches
       - ${KOHAPATH}/koha-patched/debian:/debian

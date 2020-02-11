@@ -30,6 +30,7 @@ RUN echo "deb http://debian.koha-community.org/koha stable main" > /etc/apt/sour
     apt-get update && apt-get install -y koha-perldeps koha-deps make build-essential && apt-get clean
 
 ARG KOHA_RELEASE
+ARG KOHA_FORK
 
 # Pull/Download Koha from GITREF or KOHA:RELEASE tarball, try old_releases if not existing
 ADD ./pull.sh /root/pull.sh

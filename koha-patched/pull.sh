@@ -7,7 +7,7 @@ if [ -z "$KOHA_RELEASE" ]; then
 fi
 
 if [ -z "$KOHA_FORK" ]; then
-	echo "Need KOHA_RELEASE"
+	echo "Need KOHA_FORK"
 	exit 1
 fi
 
