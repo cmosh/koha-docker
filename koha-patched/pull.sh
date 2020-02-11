@@ -5,7 +5,6 @@ if [ -z "$KOHA_RELEASE" ]; then
 	echo "Need KOHA_RELEASE"
 	exit 1
 fi
-https://github.com/cmosh/Koha/releases/tag/v${KOHA_RELEASE}.tar.gz
 mkdir -p /koha && cd /koha
 RES=`curl -L so /dev/null -w "%{http_code}" "https://github.com/$KOHA_FORK/Koha/archive/v$KOHA_RELEASE.tar.gz"`
 if [ $RES -eq 200 ]; then
