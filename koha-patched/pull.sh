@@ -7,9 +7,9 @@ if [ -z "$KOHA_RELEASE" ]; then
 fi
 
 mkdir -p /koha && cd /koha
-RES=`curl -sSk -Iso /dev/null -w "%{http_code}" https://github.com/Koha-Community/Koha/archive/v${KOHA_RELEASE}.tar.gz`
+RES=`curl -sSk -Iso /dev/null -w "%{http_code}" https://github.com/${KOHA_FORK}/Koha/archive/v${KOHA_RELEASE}.tar.gz`
 if [ $RES -eq 200 ]; then
-  curl -sSk -o koha.tar.gz https://github.com/Koha-Community/Koha/archive/v${KOHA_RELEASE}.tar.gz
+  curl -sSk -o koha.tar.gz https://github.com/${KOHA_FORK}/Koha/archive/v${KOHA_RELEASE}.tar.gz
 else
   echo "Failed getting tagged release ... giving up!"
   exit 1
