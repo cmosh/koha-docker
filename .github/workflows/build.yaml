@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build and Push to apt repo
+    - name: Build deb package
       env:
         DOCKERHUB_USERNAME: cmosh
         CI_COMMIT_TAG: "19.11.02"
@@ -22,3 +22,9 @@ jobs:
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml build koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
+        $CI_PROJECT_DIR/koha-patched/debian/ docs/incoming/
+    - name: Push .deb package
+      uses: maxheld83/ghpages@v0.2.1
+      env:
+        BUILD_DIR: docs/
+        GH_PAT: "{{ secrets.GH_PAT }}"
