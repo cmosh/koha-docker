@@ -17,3 +17,7 @@ jobs:
       run: |
         source docker-compose/docker-compose.env
         if [[ "${CI_COMMIT_TAG}" != "${KOHA_RELEASE}" ]]; then echo "SKIPPED building debian files - uneven tags"; exit 0; fi
+        docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml rm -fv koha_patched
+        docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml build koha_patched
+        docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
+        docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
