@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Print a greeting
+    - name: Build and Push to apt repo
       env:
         DOCKERHUB_USERNAME: cmosh
+        CI_COMMIT_TAG: apt
       run: |
         source docker-compose/docker-compose.env
+        if [[ "${CI_COMMIT_TAG}" != "${KOHA_RELEASE}" ]]; then echo "SKIPPED building debian files - uneven tags"; exit 0; fi
