@@ -23,6 +23,7 @@ services:
       - MKNOD
     environment:
       KOHA_RELEASE: "$KOHA_RELEASE"
+      KOHA_FORK: "$KOHA_FORK"
       KOHA_ADMINPASS: "${KOHA_ADMINPASS:-secret}"
       KOHA_ADMINUSER: "${KOHA_ADMINUSER:-admin}"
       KOHA_INSTANCE: "${KOHA_INSTANCE:-name}"

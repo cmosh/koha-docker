@@ -5,8 +5,13 @@ if [ -z "$KOHA_RELEASE" ]; then
 	echo "Need KOHA_RELEASE"
 	exit 1
 fi
+
+if [ -z "$KOHA_FORK" ]; then
+	echo "Need KOHA_RELEASE"
+	exit 1
+fi
+
 mkdir -p /koha && cd /koha
-curl -sSLk -Iso /dev/null -w "%{http_code}" "https://github.com/${KOHA_FORK}/Koha/archive/v${KOHA_RELEASE}.tar.gz"
 RES=`curl -sSLk -Iso /dev/null -w "%{http_code}" "https://github.com/${KOHA_FORK}/Koha/archive/v${KOHA_RELEASE}.tar.gz"`
 if [ $RES -eq 200 ]; then
   curl -sSLk -o koha.tar.gz "https://github.com/${KOHA_FORK}/Koha/archive/v${KOHA_RELEASE}.tar.gz"
