@@ -1,0 +1,16 @@
+name: Greeting from Mona
+
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  build:
+    name: Build Custom Docker DEB
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print a greeting
+      env:
+        DOCKERHUB_USERNAME: cmosh
+      run: |
+        source docker-compose/docker-compose.env
