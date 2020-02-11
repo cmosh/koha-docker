@@ -1,0 +1,29 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Origin: cmosh.github.io/koha-docker
+Label: cmosh.github.io/koha-docker
+Codename: buster
+Date: Tue, 11 Feb 2020 18:40:58 UTC
+Architectures: amd64
+Components: main
+Description: Personal repository
+MD5Sum:
+ 1c9d94446abe013f6a02b27858db3b30 1368 main/binary-amd64/Packages
+ 9ba154973c6332e24695b06f96b65c4e 841 main/binary-amd64/Packages.gz
+ 70d2ba54037d5f37b6d1dd020fe91b10 140 main/binary-amd64/Release
+SHA1:
+ 7f8149503a1695166edafe036380c33e707a31d6 1368 main/binary-amd64/Packages
+ 16576a58eff9d286487901f45b8a5975272e927d 841 main/binary-amd64/Packages.gz
+ 655e213b56bcde56811e443e63a8023a71df7fbc 140 main/binary-amd64/Release
+SHA256:
+ cb8746053af872803e5a29719ee70524f3d57e89ed21a41ea3856027be6f24bb 1368 main/binary-amd64/Packages
+ bffcd5a7c9b601803dad52420bc18d6bdfb4cf615443d602cd3adc60ad86c635 841 main/binary-amd64/Packages.gz
+ 357363e255a58bf4a1ea7a05a46d5d608a51b3a3869cd4cdc97f462b8d95c7b6 140 main/binary-amd64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iHUEAREIAB0WIQRK69TZt6NCrTntJoYcGKZNtPxOcgUCXkL1OgAKCRAcGKZNtPxO
+cqTSAP9/k/JEhOJYDpFveil4bvoC9r88fh9A/LJ5E6wemTSZtQD/WgoMk4mDwZ8e
+5eX1U5yje9jUzBFxVtjNQlhZX6+rbkQ=
+=xuH1
+-----END PGP SIGNATURE-----

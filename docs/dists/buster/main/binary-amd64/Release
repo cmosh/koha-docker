@@ -1,7 +1,5 @@
+Component: main
 Origin: cmosh.github.io/koha-docker
 Label: cmosh.github.io/koha-docker
-Codename: buster
-Architectures: amd64
-Components: main
+Architecture: amd64
 Description: Personal repository
-SignWith: 32D23B3F0D2B5B2E
