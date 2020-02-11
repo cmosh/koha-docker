@@ -1,14 +1,15 @@
-name: Greeting from Mona
+name: Build Custom Koha deb
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - apt
 jobs:
   build:
     name: Build Custom Docker DEB
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Print a greeting
       env:
         DOCKERHUB_USERNAME: cmosh
