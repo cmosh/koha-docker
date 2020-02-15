@@ -104,7 +104,7 @@ docker exec -it dockercompose_koha_dev_run_1 bash
 
 # 5. Useful commands inside container
 
-It is a debian jessie distro, koha source code is mounted in /kohadev/kohaclone
+It is a debian buster distro, koha source code is mounted in /kohadev/kohaclone
 
 A lot of env vars exist used to configure system (use `env` for overview)
 

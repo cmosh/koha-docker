@@ -46,7 +46,7 @@ echo "GITREF: $GITREF"
 if [ -z "$SKIP_BUILD" ]; then
   mk-build-deps -t "apt-get -y --no-install-recommends --fix-missing" -i "debian/control"
 
-  dch --force-distribution -D "wheezy" \
+  dch --force-distribution -D "buster" \
       --newversion "${KOHA_RELEASE}" \
       "Patched version of koha ${KOHA_RELEASE}"
   dch --release "Patched version of koha ${KOHA_RELEASE}"

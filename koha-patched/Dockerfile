@@ -5,9 +5,7 @@
 # applys patches, runs tests and builds debian packages
 ###########################
 
-FROM debian:jessie
-
-MAINTAINER Oslo Public Library "digitalutvikling@gmail.com"
+FROM debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBIAN_PRIORITY critical

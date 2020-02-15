@@ -1,8 +1,8 @@
 #######
-# Debian Jessie build of Koha - Use locally build debian packages
+# Debian Buster build of Koha - Use locally build debian packages
 #######
 
-FROM debian:jessie
+FROM debian:buster
 
 MAINTAINER Oslo Public Library "digitalutvikling@gmail.com"
 
@@ -46,7 +46,7 @@ ADD ./koha-patched/debian /tmp/debian
 RUN sed -i "s/httpredir.debian.org/`curl -s -D - http://httpredir.debian.org/demo/debian/ | \
     awk '/^Link:/ { print $2 }' | sed -e 's@<http://\(.*\)/debian/>;@\1@g'`/" /etc/apt/sources.list && \
     echo "search deich.folkebibl.no guest.oslo.kommune.no\nnameserver 10.172.2.1\nnameserver 8.8.8.8\nnameserver 8.8.4.4" > /etc/resolv.conf && \
-    echo "deb http://static.deichman.no/repositories/koha/public/ wheezy main" > /etc/apt/sources.list.d/deichman.list && \
+    echo "deb https://cmosh.github.io/koha-docker/ buster main" > /etc/apt/sources.list.d/deichman.list && \
     echo "deb http://debian.koha-community.org/koha stable main" > /etc/apt/sources.list.d/koha.list && \
     wget -q -O- http://debian.koha-community.org/koha/gpg.asc | apt-key add - && \
     dpkg -i /tmp/debian/koha_${KOHA_RELEASE}_all.deb || apt-get --fix-broken -y install && \
