@@ -28,6 +28,7 @@ jobs:
         path: koha-patched/debian
   package_deb:
     name: Package custom docker deb
+    needs: build
     runs-on: ubuntu-latest
     container:
       image: cmosh/aptly
@@ -43,25 +44,26 @@ jobs:
         aptly repo add -force-replace cmoshkoha .apt/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
-    - name: Push .deb package
-      uses: maxheld83/ghpages@v0.2.1
-      env:
-        BUILD_DIR: .apt/
-        GH_PAT: ${{ secrets.GH_PAT }}
-  deploy:
-    name: Build Koha Image
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build docker image
-      run: |
-        export KOHAPATH=$GITHUB_WORKSPACE
-        source docker-compose/docker-compose.env
-        docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
-        docker-compose -f docker-compose/ci.yml build koha_ci
-        docker-compose -f docker-compose/ci.yml up -d --force-recreate --no-deps koha_ci
-        docker exec -i koha_ci ./wait_until_ready.py
-        docker-compose -f docker-compose/ci.yml stop koha_ci || true
-        docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
-        docker-compose -f docker-compose/ci.yml logs --no-color koha_ci
+        ls /github/home/.aptly/public
+  #   - name: Push .deb package
+  #     uses: maxheld83/ghpages@v0.2.1
+  #     env:
+  #       BUILD_DIR: .apt/
+  #       GH_PAT: ${{ secrets.GH_PAT }}
+  # deploy:
+  #   name: Build Koha Image
+  #   needs: package_deb
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Build docker image
+  #     run: |
+  #       export KOHAPATH=$GITHUB_WORKSPACE
+  #       source docker-compose/docker-compose.env
+  #       docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
+  #       docker-compose -f docker-compose/ci.yml build koha_ci
+  #       docker-compose -f docker-compose/ci.yml up -d --force-recreate --no-deps koha_ci
+  #       docker exec -i koha_ci ./wait_until_ready.py
+  #       docker-compose -f docker-compose/ci.yml stop koha_ci || true
+  #       docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
+  #       docker-compose -f docker-compose/ci.yml logs --no-color koha_ci
