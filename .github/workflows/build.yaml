@@ -34,3 +34,17 @@ jobs:
       env:
         BUILD_DIR: .apt/
         GH_PAT: ${{ secrets.GH_PAT }}
+  deploy:
+    name: Build Koha Image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build docker image
+      run:
+        source docker-compose/docker-compose.env
+        docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
+        docker-compose -f docker-compose/ci.yml build koha_ci
+        docker-compose -f docker-compose/ci.yml up -d --force-recreate --no-deps koha_ci
+        docker exec -i koha_ci ./wait_until_ready.py
+        docker-compose -f docker-compose/ci.yml stop koha_ci || true
+        docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
+        docker-compose -f docker-compose/ci.yml logs --no-color koha_ci
