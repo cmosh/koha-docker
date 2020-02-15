@@ -38,6 +38,7 @@ jobs:
     name: Build Koha Image
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Build docker image
       run: |
         export KOHAPATH=$GITHUB_WORKSPACE
