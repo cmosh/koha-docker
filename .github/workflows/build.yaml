@@ -34,25 +34,21 @@ jobs:
     container:
       image: cmosh/aptly
     steps:
-    - name: Create apt folder
-      run: |
-        mkdir /tmp/apt
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
       with:
         name: apt
-        path: /tmp/apt
+        path: /tmp
     - name: Copy koha-patched to apt folder
       run: |
-        echo $(ls /tmp/apt)
-        gpg --import /tmp/apt/gpg.asc
+        gpg --import /tmp/gpg.asc
         aptly publish drop buster || true
         aptly snapshot drop koha-patched || true
         aptly repo create -distribution=buster -component=main cmoshkoha || true
-        aptly repo add -force-replace cmoshkoha /tmp/apt/incoming
+        aptly repo add -force-replace cmoshkoha /tmp/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
-        ls /github/home/.aptly/public
+        echo $(ls /github/home/.aptly/public)
   #   - name: Push .deb package
   #     uses: maxheld83/ghpages@v0.2.1
   #     env:
