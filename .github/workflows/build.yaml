@@ -34,7 +34,7 @@ jobs:
     container:
       image: cmosh/aptly
       volumes:
-       - /tmp/apt:/apt
+       - /tmp/apt:/tmp/apt
     steps:
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
