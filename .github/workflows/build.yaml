@@ -34,6 +34,9 @@ jobs:
     container:
       image: cmosh/aptly
     steps:
+    - name: "s"
+      run: |
+        apk add --no-cache sudo
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
       with:
