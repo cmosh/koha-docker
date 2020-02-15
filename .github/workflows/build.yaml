@@ -38,9 +38,9 @@ jobs:
     name: Build Koha Image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Build docker image
       run:
+        export KOHAPATH=$GITHUB_WORKSPACE
         source docker-compose/docker-compose.env
         docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
         docker-compose -f docker-compose/ci.yml build koha_ci
