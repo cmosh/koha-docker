@@ -29,9 +29,10 @@ jobs:
     - name: Copy koha-patched to apt folder
       run: |
         cp -r $GITHUB_WORKSPACE/koha-patched/debian .apt/incoming
+        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest gpg --import gpg.asc
         docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly publish drop buster || true
         docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly snapshot drop koha-patched || true
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly repo include -accept-unsigned=true -repo=cmoshkoha -architectures=amd64 /aptly/incoming
+        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly repo include --keyring=32D23B3F0D2B5B2E -accept-unsigned=true -repo=cmoshkoha -architectures=amd64 /aptly/incoming
         docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
     - name: Push .deb package
