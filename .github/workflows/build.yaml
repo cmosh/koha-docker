@@ -41,6 +41,7 @@ jobs:
         path: /tmp
     - name: Copy koha-patched to apt folder
       run: |
+        echo $(ls /tmp)
         gpg --import /tmp/gpg.asc
         aptly publish drop buster || true
         aptly snapshot drop koha-patched || true
