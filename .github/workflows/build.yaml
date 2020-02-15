@@ -22,10 +22,11 @@ jobs:
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml build koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
+        cp -r ./koha-patched/debian .apt/incoming
     - uses: actions/upload-artifact@v1
       with:
-        name: koha-patched
-        path: koha-patched/debian
+        name: apt
+        path: .apt
   package_deb:
     name: Package custom docker deb
     needs: build
@@ -33,19 +34,18 @@ jobs:
     container:
       image: cmosh/aptly
     steps:
-    - uses: actions/checkout@v2
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
       with:
-        name: koha-patched
+        name: apt
+        path: /aptly
     - name: Copy koha-patched to apt folder
       run: |
-        cp -r ./koha-patched/debian .apt/incoming
-        gpg --import .apt/gpg.asc
+        gpg --import /aptly/gpg.asc
         aptly publish drop buster || true
         aptly snapshot drop koha-patched || true
         aptly repo create -distribution=buster -component=main cmoshkoha || true
-        aptly repo add -force-replace cmoshkoha .apt/incoming
+        aptly repo add -force-replace cmoshkoha /aptly/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
         ls /github/home/.aptly/public
