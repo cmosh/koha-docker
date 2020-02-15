@@ -31,12 +31,9 @@ jobs:
     name: Package custom docker deb
     needs: build
     runs-on: ubuntu-latest
-    container:
-      image: cmosh/aptly
+    # container:
+    #   image: cmosh/aptly
     steps:
-    - name: "s"
-      run: |
-        apk add --no-cache sudo
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
       with:
@@ -47,14 +44,14 @@ jobs:
     - name: Copy koha-patched to apt folder
       run: |
         ls /tmp
-        gpg --import /tmp/apt/gpg.asc
-        aptly publish drop buster || true
-        aptly snapshot drop koha-patched || true
-        aptly repo create -distribution=buster -component=main cmoshkoha || true
-        aptly repo add -force-replace cmoshkoha /tmp/apt/incoming
-        aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
-        aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
-        ls /github/home/.aptly/public
+        # gpg --import /tmp/apt/gpg.asc
+        # aptly publish drop buster || true
+        # aptly snapshot drop koha-patched || true
+        # aptly repo create -distribution=buster -component=main cmoshkoha || true
+        # aptly repo add -force-replace cmoshkoha /tmp/apt/incoming
+        # aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
+        # aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
+        # ls /github/home/.aptly/public
   #   - name: Push .deb package
   #     uses: maxheld83/ghpages@v0.2.1
   #     env:
