@@ -28,7 +28,7 @@ jobs:
         path: koha-patched/debian
     - name: Copy koha-patched to apt folder
       run: |
-        cp -r $GITHUB_WORKSPACE/koha-patched/debian/* .apt/incoming/
+        cp -r $GITHUB_WORKSPACE/koha-patched/debian .apt/incoming
     - name: Push .deb package
       uses: maxheld83/ghpages@v0.2.1
       env:
