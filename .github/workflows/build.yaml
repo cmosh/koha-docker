@@ -23,7 +23,7 @@ jobs:
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
         cp -r ./koha-patched/debian .apt/incoming
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v1
       with:
         name: apt
         path: .apt
@@ -40,7 +40,7 @@ jobs:
         name: apt
         path: /tmp
     - name: Setup tmate session
-      uses: cmosh/action-tmate@v1
+      uses: cmosh/action-tmate@v2
     - name: Copy koha-patched to apt folder
       run: |
         ls /tmp
