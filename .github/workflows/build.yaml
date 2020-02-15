@@ -31,8 +31,8 @@ jobs:
     name: Package custom docker deb
     needs: build
     runs-on: ubuntu-latest
-    # container:
-    #   image: cmosh/aptly
+    container:
+      image: cmosh/aptly
     steps:
     - name: Download Built Koha Packages
       uses: actions/download-artifact@v1
@@ -40,10 +40,12 @@ jobs:
         name: apt
         path: /tmp
     - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v1
+      uses: cmosh/action-tmate@v1
     - name: Copy koha-patched to apt folder
       run: |
         ls /tmp
+
+        # ls /tmp
         # gpg --import /tmp/apt/gpg.asc
         # aptly publish drop buster || true
         # aptly snapshot drop koha-patched || true
