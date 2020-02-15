@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Build docker image
-      run:
+      run: |
         export KOHAPATH=$GITHUB_WORKSPACE
         source docker-compose/docker-compose.env
         docker-compose -f docker-compose/ci.yml rm -fv koha_ci || true
