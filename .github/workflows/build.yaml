@@ -41,6 +41,7 @@ jobs:
         GH_PAT: ${{ secrets.GH_PAT }}
   deploy:
     name: Build Koha Image
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
