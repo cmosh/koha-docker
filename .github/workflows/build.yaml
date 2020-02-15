@@ -34,6 +34,10 @@ jobs:
       image: cmosh/aptly
     steps:
     - uses: actions/checkout@v2
+    - name: Download Built Koha Packages
+      uses: actions/download-artifact@v1
+      with:
+        name: koha-patched
     - name: Copy koha-patched to apt folder
       run: |
         cp -r ./koha-patched/debian .apt/incoming
