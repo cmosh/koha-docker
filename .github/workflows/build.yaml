@@ -22,7 +22,13 @@ jobs:
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml build koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
-        $GITHUB_WORKSPACE/koha-patched/debian/ .apt/incoming/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: koha-patched
+        path: koha-patched/debian
+    - name: Copy koha-patched to apt folder
+      run: |
+        cp -r $GITHUB_WORKSPACE/koha-patched/debian/* .apt/incoming/
     - name: Push .deb package
       uses: maxheld83/ghpages@v0.2.1
       env:
