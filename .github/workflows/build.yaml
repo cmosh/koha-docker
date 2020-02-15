@@ -26,16 +26,23 @@ jobs:
       with:
         name: koha-patched
         path: koha-patched/debian
+  package_deb:
+    name: Package custom docker deb
+    runs-on: ubuntu-latest
+    container:
+      image: cmosh/aptly
+    steps:
+    - uses: actions/checkout@v2
     - name: Copy koha-patched to apt folder
       run: |
         cp -r $GITHUB_WORKSPACE/koha-patched/debian .apt/incoming
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest gpg --import /aptly/gpg.asc
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly publish drop buster || true
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly snapshot drop koha-patched || true
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly repo create -distribution=buster -component=main cmoshkoha || true
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly repo add -force-replace cmoshkoha /aptly/incoming
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
-        docker run --rm --name aptly_docker -v $GITHUB_WORKSPACE/.apt:/aptly cmosh/aptly:latest aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
+        gpg --import /aptly/gpg.asc
+        aptly publish drop buster || true
+        aptly snapshot drop koha-patched || true
+        aptly repo create -distribution=buster -component=main cmoshkoha || true
+        aptly repo add -force-replace cmoshkoha /aptly/incoming
+        aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
+        aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
     - name: Push .deb package
       uses: maxheld83/ghpages@v0.2.1
       env:
