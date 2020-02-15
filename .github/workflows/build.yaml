@@ -39,11 +39,10 @@ jobs:
       with:
         name: apt
         path: /tmp
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v1
     - name: Copy koha-patched to apt folder
       run: |
         ls /tmp
+        echo $(ls  /tmp)
         # gpg --import /tmp/apt/gpg.asc
         # aptly publish drop buster || true
         # aptly snapshot drop koha-patched || true
@@ -52,6 +51,8 @@ jobs:
         # aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         # aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
         # ls /github/home/.aptly/public
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v1
   #   - name: Push .deb package
   #     uses: maxheld83/ghpages@v0.2.1
   #     env:
