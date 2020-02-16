@@ -28,7 +28,7 @@ jobs:
         aptly publish drop buster || true
         aptly snapshot drop koha-patched || true
         aptly repo create -distribution=buster -component=main cmoshkoha || true
-        aptly repo add -force-replace cmoshkoha ./apt/incoming
+        aptly repo add -force-replace cmoshkoha .apt/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
   #   - name: Push .deb package
