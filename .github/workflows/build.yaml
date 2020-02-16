@@ -16,6 +16,7 @@ jobs:
         CI_COMMIT_TAG: "19.11.02"
         KOHA_FORK: cmosh
       run: |
+        sudo apt install -y gnupg aptly
         source docker-compose/docker-compose.env
         if [[ "${CI_COMMIT_TAG}" != "${KOHA_RELEASE}" ]]; then echo "SKIPPED building debian files - uneven tags"; exit 0; fi
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml rm -fv koha_patched
@@ -23,35 +24,13 @@ jobs:
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml up -d --force-recreate --no-deps koha_patched
         docker-compose -f docker-compose/common.yml -f docker-compose/patched.yml logs -f --no-color koha_patched
         cp -r ./koha-patched/debian .apt/incoming
-    - uses: actions/upload-artifact@v1
-      with:
-        name: apt
-        path: .apt
-  package_deb:
-    name: Package custom docker deb
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: cmosh/aptly
-      volumes:
-       - /tmp/apt:/tmp/apt
-    steps:
-    - name: Download Built Koha Packages
-      uses: actions/download-artifact@v1
-      with:
-        name: apt
-        path: /tmp/apt
-    - name: Copy koha-patched to apt folder
-      run: |
-        echo $(ls /tmp/apt)
-        gpg --import /tmp/apt/gpg.asc
+        gpg --import .apt/gpg.asc
         aptly publish drop buster || true
         aptly snapshot drop koha-patched || true
         aptly repo create -distribution=buster -component=main cmoshkoha || true
-        aptly repo add -force-replace cmoshkoha /tmp/apt/incoming
+        aptly repo add -force-replace cmoshkoha ./apt/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
-        echo $(ls /github/home/.aptly/public)
   #   - name: Push .deb package
   #     uses: maxheld83/ghpages@v0.2.1
   #     env:
