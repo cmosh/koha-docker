@@ -31,10 +31,11 @@ jobs:
         aptly repo add -force-replace cmoshkoha .apt/incoming
         aptly snapshot create -architectures=amd64 koha-patched from repo cmoshkoha
         aptly publish snapshot -architectures=i386,amd64 -skip-signing=true koha-patched
+        mv /home/runner/.aptly/public ./aptly
     - name: Push .deb package
       uses: maxheld83/ghpages@v0.2.1
       env:
-        BUILD_DIR: /home/runner/.aptly/public
+        BUILD_DIR: aptly
         GH_PAT: ${{ secrets.GH_PAT }}
   # deploy:
   #   name: Build Koha Image
